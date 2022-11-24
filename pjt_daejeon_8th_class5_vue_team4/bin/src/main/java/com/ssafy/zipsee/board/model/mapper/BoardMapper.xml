@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.zipsee.board.model.mapper.BoardMapper">
+	<select id="getNoticeList" resultType="com.ssafy.zipsee.board.model.BoardDto">
+		SELECT 
+			BOARD_ID as boardId,
+			USER_ID as userId,
+			TITLE as title,
+			CONTENT as content,
+			REGISTER_DATE as registerDate
+		FROM BOARD
+		WHERE USER_ID = 'admin'
+	</select>
+	
+	<select id="getInquiryList" resultType="com.ssafy.zipsee.board.model.BoardDto">
+		SELECT
+			B.BOARD_ID as boardId,
+			B.USER_ID as userId,
+			B.TITLE as title,
+			B.CONTENT as content,
+			B.REGISTER_DATE as registerDate,
+			C.CONTENT as "comment.content",
+			C.REGISTER_DATE as "comment.registerDate"
+		FROM BOARD B LEFT OUTER JOIN COMMENT C 
+			ON B.BOARD_ID = C.BOARD_ID 
+		WHERE B.USER_ID != 'admin'
+	</select>
+	
+	<select id="getBoard" parameterType="String" resultType="com.ssafy.zipsee.board.model.BoardDto">
+		SELECT
+			BOARD_ID as boardId,
+			USER_ID as userId,
+			TITLE as title,
+			CONTENT as content,
+			REGISTER_DATE as registerDate
+		FROM BOARD
+		WHERE BOARD_ID = #{boardId}
+	</select>
+	
+	<insert id="registerBoard" parameterType="com.ssafy.zipsee.board.model.BoardDto">
+		INSERT INTO BOARD(USER_ID, TITLE, CONTENT, REGISTER_DATE)
+		VALUES(#{userId}, #{title}, #{content}, now())
+	</insert>
+	
+	<update id="modifyBoard" parameterType="com.ssafy.zipsee.board.model.BoardDto">
+		UPDATE BOARD
+		SET(BOARD_ID = #{boardId}, USER_ID = #{userId}, TITLE = #{title}, CONTENT = #{content}, REGISTER_DATE = #{registerDate})
+	</update>
+	
+	<delete id="deleteBoard" parameterType="String">
+		DELETE FROM BOARD
+		WHERE BOARD_ID = #{boardId}
+	</delete>
+	
+	<select id="getInquiryListByUserId" parameterType="String" resultType="com.ssafy.zipsee.board.model.BoardDto">
+		SELECT
+			B.BOARD_ID as boardId,
+			B.USER_ID as userId,
+			B.TITLE as title,
+			B.CONTENT as content,
+			B.REGISTER_DATE as registerDate,
+			C.BOARD_ID as "comment.boardId",
+			C.CONTENT as "comment.content",
+			C.REGISTER_DATE as "comment.registerDate"
+		FROM BOARD B, COMMENT C 
+		WHERE B.BOARD_ID = C.BOARD_ID
+			AND B.USER_ID = #{userId}
+	</select>
+	
+	<delete id="deleteBoardByUserId" parameterType="String">
+		DELETE FROM BOARD
+		WHERE USER_ID = #{userId}
+	</delete>
+</mapper>

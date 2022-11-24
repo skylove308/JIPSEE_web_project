@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ssafy.zipsee.house.model.mapper.HouseInfoMapper">
+	<select id="getHouseInfo" parameterType="Integer" resultType="com.ssafy.zipsee.house.model.HouseInfoDto">
+		SELECT
+			H.HOUSE_ID AS houseId,
+			H.HOUSE_NAME AS houseName,
+			H.HOUSE_TYPE AS houseType,
+			H.DONG_CODE AS dongCode,
+			H.DONG_NAME AS dongName,
+			H.BUILD_YEAR AS BuildYear,
+			H.JIBUN AS jibun,
+			H.LAT AS lat,
+			H.LNG AS lng,
+			H.IMG AS img,
+			D.DONG_NAME AS "dong.dongName",
+			D.GUGUN_NAME AS "dong.gugunName",
+			D.SIDO_NAME AS "dong.sidoName"
+		FROM HOUSEINFO H, DONG D
+		WHERE H.DONG_CODE = D.DONG_CODE
+			AND H.HOUSE_ID = #{houseId}
+	</select>
+</mapper>

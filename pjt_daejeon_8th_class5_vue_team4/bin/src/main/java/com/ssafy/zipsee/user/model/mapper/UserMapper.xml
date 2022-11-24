@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.zipsee.user.model.mapper.UserMapper">
+
+ 	<insert id="registerUser" parameterType="com.ssafy.zipsee.user.model.UserDto">
+		INSERT INTO USER(USER_ID, PASSWORD, NAME, NICK_NAME, EMAIL, PHONE, SEX, REGISTER_DATE)
+		VALUES(#{userId}, #{password}, #{name}, #{nickName}, #{email}, #{phone}, #{sex}, now())
+	</insert>
+	
+	<insert id="registerUserDong" parameterType="com.ssafy.zipsee.user.model.UserDto">
+		INSERT INTO USER_DONG (USER_ID, DONG_CODE)
+		VALUES
+		<foreach collection="dongList" item="userDong" separator=" , ">
+			(#{userId}, #{userDong.dongCode})
+		</foreach>
+	</insert>
+	
+	<insert id="registerUserInterest" parameterType="com.ssafy.zipsee.user.model.UserDto">
+		INSERT INTO USER_INTEREST (USER_ID, INTEREST_ID)
+		VALUES
+		<foreach collection="interestList" item="userInterest" separator=" , ">
+			(#{userId}, #{userInterest.interestId})
+		</foreach>
+	</insert>
+	
+	<delete id="deleteUser" parameterType="String">
+		delete from user
+		where user_id = #{userId}
+	</delete>
+	
+	<select id="getUser" parameterType="String" resultType="com.ssafy.zipsee.user.model.UserDto">
+		select
+			USER_ID as userId,
+			PASSWORD as password,
+			NICK_NAME as nickName,
+			NAME as name,
+			EMAIL as email,
+			PHONE as phone,
+			SEX as sex,
+			REGISTER_DATE as registerDate
+		from user
+		where user_id = #{userId}
+	</select>
+	
+	<update id="modifyUser" parameterType="com.ssafy.zipsee.user.model.UserDto">
+		update user
+		set user_id = #{userId}, password = #{password}, name = #{name}, nick_name = #{nickName}, email = #{email}, phone = #{phone},
+			sex = #{sex}, register_date = #{registerDate}
+		where user_id = #{userId}
+	</update>
+	
+	<select id="login" parameterType="com.ssafy.zipsee.user.model.UserDto" resultType="com.ssafy.zipsee.user.model.UserDto">
+		SELECT
+			USER_ID AS userId,
+			NAME AS name,
+			NICK_NAME nickName
+		FROM USER
+		WHERE USER_ID = #{userId} AND PASSWORD = #{password}
+	</select>
+	
+	<select id="getRefreshToken" parameterType="string" resultType="string">
+		select token
+		from user
+		where user_id = #{userId}
+	</select>
+	
+	<update id="saveRefreshToken" parameterType="map">
+		update user
+		set token = #{token}
+		where user_id = #{userId}
+	</update>
+	
+	<update id="deleteRefreshToken" parameterType="map">
+		update user
+		set token = #{token, jdbcType=VARCHAR}
+		where user_id = #{userId}
+	</update>
+	
+	<select id="getUserByToken" parameterType="string" resultType="com.ssafy.zipsee.user.model.UserDto">
+		select
+			USER_ID as userId,
+			PASSWORD as password,
+			NICK_NAME as nickName,
+			NAME as name,
+			EMAIL as email,
+			PHONE as phone,
+			SEX as sex,
+			REGISTER_DATE as registerDate
+		from user
+		where token = #{token, jdbcType=VARCHAR}
+	</select>
+</mapper>

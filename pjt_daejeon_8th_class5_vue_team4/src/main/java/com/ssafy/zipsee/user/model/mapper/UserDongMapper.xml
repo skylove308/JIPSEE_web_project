@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.zipsee.user.model.mapper.UserDongMapper">
+	<insert id="insertUserDong" parameterType="com.ssafy.zipsee.user.model.UserDongDto">
+		INSERT INTO USER_DONG
+		VALUES(#{userDongId}, #{userId}, #{dongCode})
+	</insert>
+	
+	<select id="getUserDongList" parameterType="String" resultType="com.ssafy.zipsee.user.model.UserDongDto">
+		SELECT
+			UD.USER_DONG_ID AS userDongId,
+			UD.USER_ID AS userId,
+			UD.DONG_CODE AS dongCode,
+			D.DONG_NAME AS "dong.dongName"
+		FROM USER_DONG UD, DONG D
+		WHERE UD.DONG_CODE = D.DONG_CODE
+			AND USER_ID = #{userId}
+	</select>
+	
+	<delete id="deleteUserDong">
+		DELETE FROM USER_DONG
+		WHERE USER_ID = #{userId}
+	</delete>
+</mapper>

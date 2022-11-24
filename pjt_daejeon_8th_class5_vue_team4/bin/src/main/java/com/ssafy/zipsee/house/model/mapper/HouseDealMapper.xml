@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.zipsee.house.model.mapper.HouseDealMapper">
+	
+	<select id="getHouseDealList" parameterType="String" resultType="com.ssafy.zipsee.house.model.HouseDealDto">
+		select
+		d.deal_id as dealId,
+		d.house_id as houseId,
+		d.area as area,
+		d.floor as floor,
+		d.deal_type as dealType,
+		d.deposit as deposit,
+		d.price as price,
+		i.house_name as "houseInfo.houseName",
+		i.house_type as "houseInfo.houseType",
+		i.dong_name as "houseInfo.dongName",
+		i.build_year as "houseInfo.buildYear",
+		i.jibun as "houseInfo.jibun", 
+		i.lat as "houseInfo.lat",
+		i.lng as "houseInfo.lng",
+		i.img as "houseInfo.img"
+		from housedeal d, houseinfo i
+		where d.house_id = i.house_id
+			and i.dong_code = #{dongCode}
+	</select>
+	
+	<select id="getHouseDealListByFilter" parameterType="map" resultType="com.ssafy.zipsee.house.model.HouseDealDto">
+		select
+		d.deal_id as dealId,
+		d.house_id as houseId,
+		d.area as area,
+		d.floor as floor,
+		d.deal_type as dealType,
+		d.deposit as deposit,
+		d.price as price,
+		i.house_name as "houseInfo.houseName",
+		i.house_type as "houseInfo.houseType",
+		i.dong_name as "houseInfo.dongName",
+		i.build_year as "houseInfo.buildYear",
+		i.jibun as "houseInfo.jibun", 
+		i.lat as "houseInfo.lat",
+		i.lng as "houseInfo.lng",
+		i.img as "houseInfo.img"
+		from housedeal d, houseinfo i
+		where d.house_id = i.house_id
+			and i.dong_code = #{dongCode} and i.house_type = #{houseInfo.houseType} and d.deal_type = #{dealType} and price between #{minDealMoney} and #{maxDealMoney}
+	</select>
+		
+	<select id="getHouseDeal" resultType="com.ssafy.zipsee.house.model.HouseDealDto">
+		select
+		d.deal_id as dealId,
+		d.house_id as houseId,
+		d.area as area,
+		d.floor as floor,
+		d.deal_type as dealType,
+		d.deposit as deposit,
+		d.price as price,
+		i.house_name as "houseInfo.houseName",
+		i.dong_code as "houseInfo.dongCode",
+		i.dong_name as "houseInfo.dongName",
+		i.build_year as "houseInfo.buildYear",
+		i.jibun as "houseInfo.jibun", 
+		i.lat as "houseInfo.lat",
+		i.lng as "houseInfo.lng",
+		i.img as "houseInfo.img"
+		from housedeal d, houseinfo i
+		where d.house_id = i.house_id
+			and d.deal_id = #{dealId}
+	</select>
+	
+	<select id="getApartRecommandList" parameterType="String" resultType="com.ssafy.zipsee.house.model.HouseDealDto">
+		select
+		d.deal_id as dealId,
+		d.house_id as houseId,
+		d.area as area,
+		d.floor as floor,
+		d.deal_type as dealType,
+		d.deposit as deposit,
+		d.price as price,
+		i.house_name as "houseInfo.houseName",
+		i.house_type as "houseInfo.houseType",
+		i.dong_name as "houseInfo.dongName",
+		i.build_year as "houseInfo.buildYear",
+		i.jibun as "houseInfo.jibun", 
+		i.lat as "houseInfo.lat",
+		i.lng as "houseInfo.lng",
+		i.img as "houseInfo.img"
+		from housedeal d, houseinfo i
+		where d.house_id = i.house_id
+			and i.dong_code = #{dongCode} and i.house_type = '아파트'
+		order by d.like desc
+		limit 10
+	</select>
+	
+	<select id="getOneRoomRecommandList" parameterType="String" resultType="com.ssafy.zipsee.house.model.HouseDealDto">
+		select
+		d.deal_id as dealId,
+		d.house_id as houseId,
+		d.area as area,
+		d.floor as floor,
+		d.deal_type as dealType,
+		d.deposit as deposit,
+		d.price as price,
+		i.house_name as "houseInfo.houseName",
+		i.house_type as "houseInfo.houseType",
+		i.dong_name as "houseInfo.dongName",
+		i.build_year as "houseInfo.buildYear",
+		i.jibun as "houseInfo.jibun", 
+		i.lat as "houseInfo.lat",
+		i.lng as "houseInfo.lng",
+		i.img as "houseInfo.img"
+		from housedeal d, houseinfo i
+		where d.house_id = i.house_id
+			and i.dong_code = #{dongCode} and i.house_type = '원룸'
+		order by d.like desc
+		limit 10
+	</select>
+	
+	<select id="getPopularDealList" resultType="com.ssafy.zipsee.house.model.HouseDealDto">
+		select
+		d.deal_id as dealId,
+		d.house_id as houseId,
+		d.area as area,
+		d.floor as floor,
+		d.deal_type as dealType,
+		d.deposit as deposit,
+		d.price as price,
+		i.house_name as "houseInfo.houseName",
+		i.house_type as "houseInfo.houseType",
+		i.dong_name as "houseInfo.dongName",
+		i.build_year as "houseInfo.buildYear",
+		i.jibun as "houseInfo.jibun", 
+		i.lat as "houseInfo.lat",
+		i.lng as "houseInfo.lng",
+		i.img as "houseInfo.img"
+		from housedeal d, houseinfo i
+		where d.house_id = i.house_id
+		order by d.like desc
+		limit 10
+	</select>
+	
+	<update id="increaseLike" parameterType="Integer">
+		UPDATE HOUSEDEAL
+		SET HOUSEDEAL.LIKE = HOUSEDEAL.LIKE + 1
+		WHERE DEAL_ID = #{dealId}
+	</update>
+	
+	<update id="decreaseLike" parameterType="Integer">
+		UPDATE HOUSEDEAL
+		SET HOUSEDEAL.LIKE = HOUSEDEAL.LIKE - 1
+		WHERE DEAL_ID = #{dealId}
+	</update>
+</mapper>

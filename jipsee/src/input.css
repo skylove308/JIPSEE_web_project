@@ -1,0 +1,15 @@
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url("https://rsms.me/inter/inter.css");
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;&display=swap');
+@tailwind base;
+.nanumgothic {
+  font-family: "Nanum Gothic", sans-serif;
+}
+.inter {
+  font-family: "Inter", sans-serif;
+}
+.notosans {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+@tailwind components;
+@tailwind utilities;

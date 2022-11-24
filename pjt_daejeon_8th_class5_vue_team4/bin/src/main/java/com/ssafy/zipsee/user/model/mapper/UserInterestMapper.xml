@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.zipsee.user.model.mapper.UserInterestMapper">
+	<insert id="insertUserInterest" parameterType="com.ssafy.zipsee.user.model.UserInterestDto">
+		INSERT INTO USER_INTEREST
+		VALUES(#{userId}, #{interestId})
+	</insert>
+	
+	<select id="getUserInterestList" parameterType="String" resultType="com.ssafy.zipsee.user.model.UserInterestDto">
+		SELECT
+			UI.USER_INTEREST_ID AS userInterestId,
+			UI.USER_ID AS userId,
+			UI.INTEREST_ID AS interestId,
+			I.INTEREST_NAME AS "interest.interestName"
+		FROM USER_INTEREST UI, INTEREST I
+		WHERE UI.INTEREST_ID = I.INTEREST_ID
+			AND USER_ID = #{userId}
+	</select>
+	
+	<delete id="deleteUserInterest" parameterType="String">
+		DELETE FROM USER_INTEREST
+		WHERE USER_ID = #{userId}
+	</delete>
+</mapper>

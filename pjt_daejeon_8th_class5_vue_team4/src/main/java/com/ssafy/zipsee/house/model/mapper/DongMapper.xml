@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.zipsee.house.model.mapper.DongMapper">
+	<select id="getDong" parameterType="String" resultType="com.ssafy.zipsee.house.model.DongDto">
+		SELECT
+			DONG_CODE AS dongCode,
+			DONG_NAME AS dongName,
+			GUGUN_NAME AS gugunName,
+			SIDO_NAME AS sidoName
+		FROM DONG
+		WHERE DONG_CODE = #{dongCode}
+	</select>
+</mapper>

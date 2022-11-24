@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.zipsee.user.model.mapper.UserDealMapper">
+	<insert id="insertUserHouse" parameterType="com.ssafy.zipsee.user.model.UserDealDto">
+		INSERT INTO USER_DEAL (USER_ID, DEAL_ID)
+		VALUES(#{userId}, #{dealId})
+	</insert>
+	
+	<select id="getUserDealList" parameterType="String" resultType="com.ssafy.zipsee.user.model.UserDealDto">
+		SELECT
+			UH.USER_DEAL_ID AS userDealId,
+			UH.USER_ID AS userId,
+			UH.DEAL_ID AS dealId,
+			H.AREA AS "houseDeal.area",
+			H.FLOOR AS "houseDeal.floor",
+			H.DEAL_TYPE AS "houseDeal.dealType",
+			H.DEPOSIT AS "houseDeal.deposit",
+			H.PRICE AS "houseDeal.price",
+			H.LIKE AS "houseDeal.like"
+		FROM USER_DEAL UH, HOUSEDEAL H
+		WHERE UH.DEAL_ID = H.DEAL_ID
+			AND UH.USER_ID = #{userId}
+	</select>
+	
+	<delete id="deleteUserDeal">
+		DELETE FROM USER_DEAL
+		WHERE USER_ID = #{userId} AND DEAL_ID = #{dealId}
+	</delete>
+	
+	<delete id="deleteUserDealByUserId">
+		DELETE FROM USER_DEAL
+		WHERE USER_ID = #{userId}
+	</delete>
+</mapper>

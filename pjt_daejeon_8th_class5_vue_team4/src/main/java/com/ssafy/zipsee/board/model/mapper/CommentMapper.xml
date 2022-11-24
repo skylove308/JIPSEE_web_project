@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.zipsee.board.model.mapper.CommentMapper">
+	<insert id="registerComment" parameterType="com.ssafy.zipsee.board.model.CommentDto">
+		INSERT INTO COMMENT (BOARD_ID, CONTENT, REGISTER_DATE)
+		VALUES (#{boardId}, #{content}, now())
+	</insert>
+	
+	<update id="modifyComment" parameterType="com.ssafy.zipsee.board.model.CommentDto">
+		UPDATE COMMENT
+		SET(COMMENT_ID = #{commentId}, BOARD_ID = #{boardId}, CONTENT = #{content}, REGISTER_DATE = #{registerDate})
+	</update>
+	
+	<delete id="deleteComment" parameterType="Integer">
+		DELETE FROM COMMENT
+		WHERE COMMENT_ID = #{commentId}
+	</delete>
+	
+	<delete id="deleteCommentByBoardId" parameterType="Integer">
+		DELETE FROM COMMENT
+		WHERE BOARD_ID = #{boardId}
+	</delete>
+</mapper>
